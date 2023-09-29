@@ -19,6 +19,7 @@ app.post('/notes', async (req, res) => {
 });
 
 app.get('/notes', async (req, res) => {
+  res.statusCode = 200;
   const notes = await prisma.note.findMany();
   res.json({ notes });
 });
@@ -33,4 +34,4 @@ app.delete('/notes/:id', async (req, res) => {
   res.json({ message: 'Note Deleted' });
 });
 
-app.listen(3000, () => console.log('Server is running on port 3000'));
+app.listen(5050, () => console.log('Server is running on port 3000'));
