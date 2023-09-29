@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "prisma generate && node api/index.js",
-    "build": "prisma generate && node api/index.js"
+    "start": "prisma generate && node index.js",
+    "build": "prisma generate && node index.js"
   },
   "keywords": [],
   "author": "",
