@@ -1,12 +1,10 @@
-const serverless = require('serverless-http');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const app = express();
 const dotenv = require("dotenv");
 
 dotenv.config();
-
-const app = express();
 
 app.use(cors()); // Enable All CORS Requests
 app.use(express.json());
@@ -52,4 +50,4 @@ app.delete('/notes/:id', async (req, res) => {
   res.json({ message: 'Note Deleted' });
 });
 
-module.exports.handler = serverless(app);
+module.exports = app;
