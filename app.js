@@ -50,4 +50,4 @@ app.delete('/notes/:id', async (req, res) => {
   res.json({ message: 'Note Deleted' });
 });
 
-app.listen(8080, () => console.log('Server is running on port 8080'));
+app.listen(8080, () => console.log('Running on port 8080'));
