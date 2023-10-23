@@ -120,4 +120,19 @@ app.delete("/notes/:id", authMiddleware, async (req, res) => {
   res.json({ message: "Note Deleted" });
 });
 
+// Update Note
+app.put("/notes/:id", authMiddleware, async (req, res) => {
+  const { id } = req.params;
+  const { newTitle: title, newDescription: description } = req.body;
+  await Note.findByIdAndUpdate(id, { title, description });
+  res.json({ message: "Note updated successfully" });
+});
+
+// Get a single Note
+app.get("/notes/:id", authMiddleware, async (req, res) => {
+  const { id } = req.params;
+  const note = await Note.findById(id);
+  res.json({ note });
+});
+
 app.listen(8080, () => console.log("Running on port 8080"));
