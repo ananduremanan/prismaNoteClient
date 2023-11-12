@@ -9,18 +9,22 @@ const jwt = require("jsonwebtoken");
 dotenv.config();
 
 app.use(cors()); // Enable All CORS Requests
+
 app.use(express.json());
 
 // Connect to MongoDB
-try {
-  mongoose.connect(process.env.DATABASE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-  console.log("Connected to Mongo");
-} catch (error) {
-  console.error(error);
-}
+const connectDB = async () => {
+  try {
+    mongoose.connect(process.env.DATABASE_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Connected to Mongo");
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+};
 
 // Define Note schema
 const noteSchema = new mongoose.Schema({
@@ -34,11 +38,10 @@ const noteSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,
-  notes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Note' }],
+  notes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Note" }],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
-
 
 // Create User model
 const User = mongoose.model("User", userSchema);
@@ -135,4 +138,7 @@ app.get("/notes/:id", authMiddleware, async (req, res) => {
   res.json({ note });
 });
 
-app.listen(8080, () => console.log("Running on port 8080"));
+//Connect to the database before listening
+connectDB().then(() => {
+  app.listen(8080, () => console.log("Running on port 8080"));
+});
